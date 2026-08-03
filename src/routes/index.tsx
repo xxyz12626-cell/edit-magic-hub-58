@@ -1,202 +1,309 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   BadgeCheck,
+  CalendarDays,
   FileText,
-  Handshake,
+  Gift,
+  HandCoins,
   LineChart,
-  ReceiptText,
+  MapPin,
+  Search,
   ShieldCheck,
-  Wallet,
+  Users,
 } from "lucide-react";
+import { useState } from "react";
+
 import { PageShell } from "../components/site/PageShell";
-import { EVENTS, egp } from "../data/events";
+import { CATEGORIES, EVENTS, egp, num } from "../data/events";
+import heroImage from "../assets/hero-events.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "رعايتي | منصة رعاية الفعاليات في مصر" },
+      { title: "سند | رعاية الفعاليات في مصر بالجنيه المصري" },
       {
         name: "description",
         content:
-          "اربط فعاليتك بالشركات الراعية في مصر: باكدجات بالجنيه، فواتير ضريبية، دفع بإنستاباي وفوري، وتقارير أثر موثقة.",
+          "سند سوق يربط الشركات بمنظمي الفعاليات في كل محافظات مصر: أسعار بالجنيه، منظمون موثقون، فواتير ضريبية، وتقارير نتائج بعد الحدث.",
       },
-      { property: "og:title", content: "رعايتي | منصة رعاية الفعاليات في مصر" },
+      { property: "og:title", content: "سند | رعاية الفعاليات في مصر" },
       {
         property: "og:description",
-        content: "منصة مصرية تربط منظمي الفعاليات بالرعاة، بأسعار بالجنيه المصري وحماية للأموال.",
+        content: "ارعَ فعاليات مصرية حقيقية وشوف نتيجة فلوسك بالأرقام.",
       },
+      { property: "og:url", content: "/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
-  component: Home,
+  component: HomePage,
 });
 
-const problems = [
+const STATS = [
+  { value: "+٤٢٠", label: "فعالية مسجلة" },
+  { value: "٢٧", label: "محافظة" },
+  { value: "١٨ م ج.م", label: "قيمة رعايات" },
+  { value: "٩٦٪", label: "تقارير مسلّمة" },
+];
+
+const PROBLEMS = [
   {
-    icon: Wallet,
-    problem: "الأسعار بالدولار ورسوم تحويل عالية",
-    fix: "كل الباكدجات بالجنيه المصري، ودفع بإنستاباي وفوري ومحافظ المحمول وتحويل بنكي محلي.",
-  },
-  {
-    icon: ReceiptText,
-    problem: "الشركات مش بتقدر تحاسب الرعاية ضريبيًا",
-    fix: "فاتورة إلكترونية على منظومة الضرائب المصرية + نموذج الخصم تحت حساب الضريبة تلقائيًا.",
-  },
-  {
-    icon: ShieldCheck,
-    problem: "الراعي بيدفع والتنفيذ ميحصلش",
-    fix: "الأموال محتجزة في حساب وسيط وتُصرف على مراحل بعد إثبات تنفيذ كل بند.",
+    icon: FileText,
+    problem: "أسعار مخفية بالدولار",
+    solution: "كل باقة معروضة بالجنيه المصري وشاملة الضريبة، من غير «كلمنا لمعرفة السعر».",
   },
   {
     icon: BadgeCheck,
-    problem: "أرقام حضور مبالغ فيها وبدون إثبات",
-    fix: "توثيق المنظم بالسجل التجاري/البطاقة الضريبية، وأرقام الحضور من التذاكر والباركود.",
+    problem: "منظمون مجهولون",
+    solution: "توثيق بالسجل التجاري والبطاقة الضريبية، وتقييم من رعاة سابقين.",
   },
   {
     icon: FileText,
-    problem: "العروض بتتبعت PDF ورد على واتساب",
-    fix: "ملف رعاية موحد بصيغة عربية/إنجليزية، وتفاوض ورد داخل المنصة مع تسجيل كل خطوة.",
+    problem: "لا توجد فواتير رسمية",
+    solution: "فاتورة إلكترونية متوافقة مع مصلحة الضرائب المصرية لكل صفقة.",
   },
   {
     icon: LineChart,
-    problem: "مفيش تقرير أثر بعد الحدث",
-    fix: "تقرير تلقائي: وصول، ظهور اللوجو، ليدز، وصور تنفيذ — جاهز لإدارة التسويق أو CSR.",
+    problem: "الرعاية تنتهي بلا نتائج",
+    solution: "تقرير إلزامي بعد الحدث: صور، أعداد حضور، وصول السوشيال، وبيانات الليدز.",
+  },
+  {
+    icon: Gift,
+    problem: "الرعاية العينية مرفوضة",
+    solution: "ادعم بمنتجات أو خدمات أو مقر، والمنصة بتقدّر قيمتها السوقية.",
+  },
+  {
+    icon: MapPin,
+    problem: "فعاليات القاهرة بس",
+    solution: "تغطية الصعيد والدلتا والمدن الساحلية، مع فلترة بالمحافظة.",
   },
 ];
 
-const steps = [
-  { n: "١", t: "انشر ملف الرعاية", d: "أضف تفاصيل الفعالية، الجمهور، وباكدجات بالجنيه في ١٥ دقيقة." },
-  { n: "٢", t: "اتطابق مع رعاة مناسبين", d: "نرشّح شركات بتستهدف نفس الجمهور والمحافظة والقطاع." },
-  { n: "٣", t: "اتفق ووقّع أونلاين", d: "عقد جاهز بالعربية، وتحصيل آمن مع فاتورة ضريبية." },
-  { n: "٤", t: "نفّذ وسلّم تقرير", d: "ارفع إثباتات التنفيذ، والراعي يستلم تقرير أثر موثق." },
+const STEPS = [
+  { n: "١", title: "اختار جمهورك", text: "فلتر بالمحافظة والقطاع وعدد الحضور وميزانيتك." },
+  { n: "٢", title: "قارن الباقات", text: "كل مزايا الباقة والأسعار ظاهرة قدامك بالجنيه." },
+  { n: "٣", title: "احجز وادفع بأمان", text: "الفلوس محجوزة لحد ما الفعالية تتنفذ فعلاً." },
+  { n: "٤", title: "استلم تقرير النتائج", text: "خلال ١٠ أيام من الحدث، بالأرقام والصور." },
 ];
 
-function Home() {
-  const totalNeed = EVENTS.reduce((s, e) => s + e.needEGP, 0);
+function HomePage() {
+  const [active, setActive] = useState<string>(CATEGORIES[0]);
+  const shown = EVENTS.filter((e) => e.category === active).slice(0, 3);
 
   return (
     <PageShell>
-      <section className="relative overflow-hidden bg-ink text-ink-foreground">
-        <div className="absolute -left-24 top-1/2 size-[420px] -translate-y-1/2 rounded-full bg-brand/25 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-[1.15fr_1fr] md:py-24">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs text-gold">
-              <Handshake className="size-3.5" /> مصنوعة للسوق المصري
-            </span>
-            <h1 className="mt-5 font-display text-4xl font-bold leading-tight md:text-6xl">
-              رعاية فعاليتك بالجنيه المصري، من غير وسطاء ولا وعود.
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-foreground/75 md:text-lg">
-              رعايتي بتربط منظمي الفعاليات في مصر بالشركات الراعية، وبتحل المشاكل اللي بتعطل
-              الاتفاق: التسعير، الفاتورة الضريبية، أمان الدفع، وإثبات التنفيذ.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/pricing"
-                className="rounded-md bg-gold px-5 py-3 text-sm font-semibold text-gold-foreground transition-opacity hover:opacity-90"
-              >
-                انشر فعاليتك مجانًا
-              </Link>
-              <Link
-                to="/events"
-                className="rounded-md border border-ink-foreground/25 px-5 py-3 text-sm font-semibold transition-colors hover:bg-ink-foreground/10"
-              >
-                أنا راعٍ — تصفح الفرص
-              </Link>
-            </div>
-            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-ink-foreground/15 pt-6 text-sm">
-              <div>
-                <dt className="text-ink-foreground/60">فرص رعاية</dt>
-                <dd className="font-display text-2xl font-bold">{EVENTS.length * 27}</dd>
-              </div>
-              <div>
-                <dt className="text-ink-foreground/60">قيمة مطلوبة</dt>
-                <dd className="font-display text-2xl font-bold">{egp(totalNeed * 27)}</dd>
-              </div>
-              <div>
-                <dt className="text-ink-foreground/60">متوسط الرد</dt>
-                <dd className="font-display text-2xl font-bold">‎٤٨ ساعة</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="rounded-2xl border border-ink-foreground/15 bg-ink-foreground/[0.04] p-5">
-            <p className="text-xs text-ink-foreground/60">أحدث فرصة</p>
-            {EVENTS.slice(0, 2).map((e) => (
-              <div key={e.id} className="mt-4 rounded-xl bg-background p-4 text-foreground">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-display text-base font-bold">{e.title}</h3>
-                  {e.verified && (
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand/10 px-2 py-0.5 text-[11px] text-brand">
-                      <BadgeCheck className="size-3" /> موثق
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {e.city} · {e.date} · {e.attendees.toLocaleString("ar-EG")} حاضر
-                </p>
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
-                  <div
-                    className="h-full rounded-full bg-brand"
-                    style={{ width: `${Math.round((e.raisedEGP / e.needEGP) * 100)}%` }}
-                  />
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {egp(e.raisedEGP)} من {egp(e.needEGP)}
-                </p>
-              </div>
-            ))}
-            <Link to="/events" className="mt-4 inline-block text-sm text-gold hover:underline">
-              شوف كل الفعاليات ←
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden">
+        <img
+          src={heroImage}
+          alt="جمهور في مؤتمر مصري ولافتات رعاة على المسرح"
+          width={1920}
+          height={1088}
+          className="absolute inset-0 -z-10 size-full object-cover"
+        />
+        <div className="absolute inset-0 -z-10 bg-ink/80" />
+        <div className="mx-auto max-w-6xl px-4 py-24 text-center text-ink-foreground sm:py-32">
+          <span className="inline-flex rounded-full border border-ink-foreground/25 px-4 py-1.5 text-xs">
+            أسعار بالجنيه · منظمون موثقون · فواتير ضريبية
+          </span>
+          <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-black leading-tight sm:text-6xl">
+            ارعَ فعاليات مصرية حقيقية، وشوف نتيجة فلوسك بالأرقام.
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-ink-foreground/80">
+            «سند» سوق يربط الشركات بمنظمي الفعاليات في كل محافظات مصر — من هاكاثون في أسيوط
+            لماراثون على كورنيش الإسكندرية.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/discover"
+              className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 font-semibold text-gold-foreground transition-opacity hover:opacity-90"
+            >
+              <Search className="size-4" />
+              أنا راعي — دوّر على فعالية
+            </Link>
+            <Link
+              to="/organizers"
+              className="rounded-lg border border-ink-foreground/30 px-6 py-3 font-semibold transition-colors hover:bg-ink-foreground/10"
+            >
+              أنا منظم — اعرض فعاليتي
             </Link>
           </div>
+          <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <dt className="font-display text-2xl font-bold text-gold">{s.value}</dt>
+                <dd className="mt-1 text-xs text-ink-foreground/70">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-        <h2 className="font-display text-3xl font-bold md:text-4xl">٦ مشاكل بتوقف الرعاية في مصر — وإزاي بنحلها</h2>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          المنصات العالمية بتفترض دفع بالدولار وعقود إنجليزي ومحاسبة أمريكية. ده مش واقع السوق المصري.
-        </p>
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {problems.map((p) => (
-            <article key={p.problem} className="rounded-xl border border-border bg-card p-5">
-              <p.icon className="size-5 text-brand" />
-              <h3 className="mt-4 font-display text-base font-bold">{p.problem}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.fix}</p>
+      {/* Problems */}
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <div className="text-center">
+          <h2 className="font-display text-3xl font-bold sm:text-4xl">
+            مشاكل الرعاية في مصر… وحلّها هنا
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+            كل نقطة تحت دي شكوى متكررة من رعاة ومنظمين مصريين، والمنصة مبنية عشان تحلها.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {PROBLEMS.map(({ icon: Icon, problem, solution }) => (
+            <article key={problem} className="rounded-xl border border-border bg-card p-6">
+              <span className="grid size-10 place-items-center rounded-lg bg-secondary text-brand">
+                <Icon className="size-5" />
+              </span>
+              <h3 className="mt-4 font-semibold">
+                <span className="text-muted-foreground">المشكلة: </span>
+                {problem}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{solution}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="border-y border-border bg-secondary/50">
-        <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
-          <h2 className="font-display text-3xl font-bold md:text-4xl">إزاي بتشتغل؟</h2>
-          <ol className="mt-10 grid gap-6 md:grid-cols-4">
-            {steps.map((s) => (
-              <li key={s.n}>
-                <span className="grid size-10 place-items-center rounded-full bg-brand font-display text-lg font-bold text-brand-foreground">
-                  {s.n}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold">{s.t}</h3>
-                <p className="mt-1.5 text-sm text-muted-foreground">{s.d}</p>
-              </li>
+      {/* Events */}
+      <section className="bg-secondary/40 py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="text-center font-display text-3xl font-bold sm:text-4xl">
+            فعاليات مفتوحة للرعاية دلوقتي
+          </h2>
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setActive(c)}
+                className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                  active === c
+                    ? "border-brand bg-brand text-brand-foreground"
+                    : "border-border bg-card text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {c}
+              </button>
             ))}
-          </ol>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {shown.length === 0 && (
+              <p className="md:col-span-3 text-center text-muted-foreground">
+                مفيش فعاليات مفتوحة في القطاع ده حاليًا — جرّب قطاع تاني.
+              </p>
+            )}
+            {shown.map((e) => (
+              <article
+                key={e.slug}
+                className="flex flex-col rounded-xl border border-border bg-card p-6"
+              >
+                <div className="flex flex-wrap items-center gap-2 text-xs">
+                  <span className="rounded-full bg-secondary px-2.5 py-1 text-secondary-foreground">
+                    {e.category}
+                  </span>
+                  {e.verified && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-1 text-brand">
+                      <ShieldCheck className="size-3.5" /> منظّم موثّق
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-3 font-display text-lg font-bold leading-snug">{e.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{e.organizer}</p>
+
+                <ul className="mt-4 grid gap-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <CalendarDays className="size-4" /> {e.date}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <MapPin className="size-4" /> {e.city} — {e.governorate}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Users className="size-4" /> {num(e.attendees)} حاضر متوقع
+                  </li>
+                </ul>
+
+                <div className="mt-4">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                    <div className="h-full rounded-full bg-gold" style={{ width: `${e.coverage}%` }} />
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <span>تم تغطية {e.coverage}% من الرعاية</span>
+                    {e.inKind && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5">
+                        <Gift className="size-3" /> يقبل رعاية عينية
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <p className="mt-4 font-display text-lg font-bold text-brand">
+                  تبدأ من {egp(e.fromEGP)}
+                </p>
+                <Link
+                  to="/events/$slug"
+                  params={{ slug: e.slug }}
+                  className="mt-4 inline-flex justify-center rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary"
+                >
+                  شوف الباقات
+                </Link>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              to="/discover"
+              className="inline-flex rounded-lg bg-brand px-6 py-3 font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+            >
+              شوف كل الفعاليات
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-        <div className="rounded-2xl bg-ink px-6 py-12 text-center text-ink-foreground md:px-16">
-          <h2 className="font-display text-3xl font-bold md:text-4xl">جاهز تجيب راعي لفعاليتك؟</h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink-foreground/75">
-            النشر مجاني، ومفيش عمولة غير لما تقبض فعلًا.
+      {/* Steps */}
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <h2 className="text-center font-display text-3xl font-bold sm:text-4xl">إزاي بتشتغل؟</h2>
+        <ol className="mt-10 grid gap-5 md:grid-cols-4">
+          {STEPS.map((s) => (
+            <li key={s.n} className="rounded-xl border border-border bg-card p-6">
+              <span className="grid size-9 place-items-center rounded-full bg-brand font-display font-bold text-brand-foreground">
+                {s.n}
+              </span>
+              <h3 className="mt-4 font-semibold">{s.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+          <HandCoins className="mx-auto size-8 text-gold" />
+          <h2 className="mt-4 font-display text-3xl font-bold">
+            جاهز تحوّل ميزانية التسويق لنتائج على أرض الواقع؟
+          </h2>
+          <p className="mt-3 text-ink-foreground/75">
+            ابدأ بأول رعاية من ١٥٬٠٠٠ جنيه، وادفع بانستاباي أو تحويل بنكي أو فوري.
           </p>
-          <Link
-            to="/pricing"
-            className="mt-7 inline-block rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-opacity hover:opacity-90"
-          >
-            ابدأ الآن
-          </Link>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link
+              to="/discover"
+              className="rounded-lg bg-gold px-6 py-3 font-semibold text-gold-foreground transition-opacity hover:opacity-90"
+            >
+              ابدأ كراعي
+            </Link>
+            <Link
+              to="/organizers"
+              className="rounded-lg border border-ink-foreground/30 px-6 py-3 font-semibold transition-colors hover:bg-ink-foreground/10"
+            >
+              سجّل فعاليتك
+            </Link>
+          </div>
         </div>
       </section>
     </PageShell>
