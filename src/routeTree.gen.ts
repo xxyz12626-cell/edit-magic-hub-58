@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as SponsorsRouteImport } from './routes/sponsors'
@@ -17,6 +18,11 @@ import { Route as SponsorsRouteImport } from './routes/sponsors'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -37,12 +43,14 @@ const SponsorsRoute = SponsorsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
   '/events': typeof EventsRoute
   '/pricing': typeof PricingRoute
   '/sponsors': typeof SponsorsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
   '/events': typeof EventsRoute
   '/pricing': typeof PricingRoute
   '/sponsors': typeof SponsorsRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
   '/events': typeof EventsRoute
   '/pricing': typeof PricingRoute
   '/sponsors': typeof SponsorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/events' | '/pricing' | '/sponsors'
+  fullPaths: '/' | '/discover' | '/events' | '/pricing' | '/sponsors'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/events' | '/pricing' | '/sponsors'
-  id: '__root__' | '/' | '/events' | '/pricing' | '/sponsors'
+  to: '/' | '/discover' | '/events' | '/pricing' | '/sponsors'
+  id: '__root__' | '/' | '/discover' | '/events' | '/pricing' | '/sponsors'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DiscoverRoute: typeof DiscoverRoute
   EventsRoute: typeof EventsRoute
   PricingRoute: typeof PricingRoute
   SponsorsRoute: typeof SponsorsRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DiscoverRoute: DiscoverRoute,
   EventsRoute: EventsRoute,
   PricingRoute: PricingRoute,
   SponsorsRoute: SponsorsRoute,
@@ -111,13 +129,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
