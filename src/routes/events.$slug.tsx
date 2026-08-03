@@ -12,9 +12,10 @@ import {
 
 import { PageShell } from "../components/site/PageShell";
 import { EVENTS, egp, num } from "../data/events";
+import type { EventItem, SponsorTier } from "../data/events";
 
 export const Route = createFileRoute("/events/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { event: EventItem } => {
     const event = EVENTS.find((e) => e.slug === params.slug);
     if (!event) throw notFound();
     return { event };
@@ -114,13 +115,13 @@ function EventPage() {
 
           <h3 className="mt-8 font-display text-xl font-bold">باقات الرعاية</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {event.tiers.map((t) => (
+            {event.tiers.map((t: SponsorTier) => (
               <article key={t.name} className="rounded-xl border border-border bg-card p-6">
                 <h4 className="font-semibold">{t.name}</h4>
                 <p className="mt-1 font-display text-2xl font-bold text-brand">{egp(t.priceEGP)}</p>
                 <p className="text-xs text-muted-foreground">شامل الضريبة</p>
                 <ul className="mt-4 grid gap-2 text-sm text-muted-foreground">
-                  {t.perks.map((p) => (
+                  {t.perks.map((p: string) => (
                     <li key={p} className="flex items-start gap-2">
                       <Check className="mt-0.5 size-4 text-brand" /> {p}
                     </li>

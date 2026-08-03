@@ -47,7 +47,7 @@ function DiscoverPage() {
         (e) =>
           (gov === "all" || e.governorate === gov) &&
           (cat === "all" || e.category === cat) &&
-          e.fromEGP <= BUDGETS[budget].max &&
+          e.fromEGP <= (BUDGETS[budget]?.max ?? Infinity) &&
           (!inKindOnly || e.inKind) &&
           (q.trim() === "" ||
             e.title.includes(q.trim()) ||
