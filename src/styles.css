@@ -74,25 +74,25 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.995 0.004 100);
+  --background: oklch(0.985 0.008 95);
   --foreground: oklch(0.22 0.04 225);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.46 0.11 187);
+  --primary: oklch(0.33 0.062 163);
   --primary-foreground: oklch(0.99 0.01 180);
-  --secondary: oklch(0.96 0.02 180);
+  --secondary: oklch(0.955 0.018 150);
   --secondary-foreground: oklch(0.28 0.06 210);
   --muted: oklch(0.965 0.012 200);
   --muted-foreground: oklch(0.52 0.03 220);
   --accent: oklch(0.83 0.13 82);
   --accent-foreground: oklch(0.25 0.05 220);
-  --brand: oklch(0.46 0.11 187);
+  --brand: oklch(0.33 0.062 163);
   --brand-foreground: oklch(0.99 0.01 180);
   --gold: oklch(0.83 0.13 82);
   --gold-foreground: oklch(0.25 0.05 220);
-  --ink: oklch(0.24 0.045 225);
+  --ink: oklch(0.24 0.05 163);
   --ink-foreground: oklch(0.97 0.01 200);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);

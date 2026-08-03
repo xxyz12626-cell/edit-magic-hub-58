@@ -10,63 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as EventsRouteImport } from './routes/events'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as SponsorsRouteImport } from './routes/sponsors'
+import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as OrganizersRouteImport } from './routes/organizers'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
+const OrganizersRoute = OrganizersRouteImport.update({
+  id: '/organizers',
+  path: '/organizers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SponsorsRoute = SponsorsRouteImport.update({
-  id: '/sponsors',
-  path: '/sponsors',
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/events': typeof EventsRoute
-  '/pricing': typeof PricingRoute
-  '/sponsors': typeof SponsorsRoute
+  '/discover': typeof DiscoverRoute
+  '/organizers': typeof OrganizersRoute
+  '/events/$slug': typeof EventsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/events': typeof EventsRoute
-  '/pricing': typeof PricingRoute
-  '/sponsors': typeof SponsorsRoute
+  '/discover': typeof DiscoverRoute
+  '/organizers': typeof OrganizersRoute
+  '/events/$slug': typeof EventsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/events': typeof EventsRoute
-  '/pricing': typeof PricingRoute
-  '/sponsors': typeof SponsorsRoute
+  '/discover': typeof DiscoverRoute
+  '/organizers': typeof OrganizersRoute
+  '/events/$slug': typeof EventsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/events' | '/pricing' | '/sponsors'
+  fullPaths: '/' | '/discover' | '/organizers' | '/events/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/events' | '/pricing' | '/sponsors'
-  id: '__root__' | '/' | '/events' | '/pricing' | '/sponsors'
+  to: '/' | '/discover' | '/organizers' | '/events/$slug'
+  id: '__root__' | '/' | '/discover' | '/organizers' | '/events/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  EventsRoute: typeof EventsRoute
-  PricingRoute: typeof PricingRoute
-  SponsorsRoute: typeof SponsorsRoute
+  DiscoverRoute: typeof DiscoverRoute
+  OrganizersRoute: typeof OrganizersRoute
+  EventsSlugRoute: typeof EventsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,25 +78,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
+    '/organizers': {
+      id: '/organizers'
+      path: '/organizers'
+      fullPath: '/organizers'
+      preLoaderRoute: typeof OrganizersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sponsors': {
-      id: '/sponsors'
-      path: '/sponsors'
-      fullPath: '/sponsors'
-      preLoaderRoute: typeof SponsorsRouteImport
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,9 +104,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  EventsRoute: EventsRoute,
-  PricingRoute: PricingRoute,
-  SponsorsRoute: SponsorsRoute,
+  DiscoverRoute: DiscoverRoute,
+  OrganizersRoute: OrganizersRoute,
+  EventsSlugRoute: EventsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -77,15 +77,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "رعايتي | منصة رعاية الفعاليات في مصر" },
+      { title: "سند | رعاية الفعاليات في مصر" },
       {
         name: "description",
         content:
           "منصة مصرية تربط منظمي الفعاليات بالشركات الراعية بأسعار بالجنيه وفواتير ضريبية.",
       },
       
-      { property: "og:title", content: "رعايتي" },
-      { property: "og:description", content: "رعاية فعاليات في مصر بالجنيه المصري." },
+      { property: "og:site_name", content: "سند" },
+      
       { property: "og:locale", content: "ar_EG" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
