@@ -98,7 +98,7 @@ function OrganizersPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              to="/organizers"
+              to="/submit"
               className="rounded-lg bg-gold px-6 py-3 font-semibold text-gold-foreground transition-opacity hover:opacity-90"
             >
               سجّل فعاليتك
