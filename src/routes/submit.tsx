@@ -100,7 +100,15 @@ function SubmitPage() {
     e.preventDefault();
     setBusy(true);
     const chosen = tiers.filter((t) => t.name && t.priceEGP > 0);
+    const { data: userData } = await supabase.auth.getUser();
+    const uid = userData.user?.id;
+    if (!uid) {
+      setBusy(false);
+      toast.error("لازم تسجّل دخولك الأول");
+      return;
+    }
     const { error } = await supabase.from("user_events").insert({
+      user_id: uid,
       title: form.title,
       organizer: form.organizer,
       category: form.category,
