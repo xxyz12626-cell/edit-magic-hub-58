@@ -6,6 +6,7 @@ const links = [
   { to: "/", label: "الرئيسية" },
   { to: "/discover", label: "تصفّح الفعاليات" },
   { to: "/organizers", label: "لمنظمي الفعاليات" },
+  { to: "/submit", label: "أضف فعاليتك" },
 ] as const;
 
 export function Header() {
@@ -39,19 +40,13 @@ export function Header() {
 
         <div className="mr-auto flex items-center gap-2 md:mr-0">
           <Link
-            to="/organizers"
-            className="hidden rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary lg:inline-flex"
-          >
-            أضف فعاليتك
-          </Link>
-          <Link
             to="/discover"
             className="hidden rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:inline-flex"
           >
             تسجيل الدخول
           </Link>
           <Link
-            to="/organizers"
+            to="/submit"
             className="rounded-md bg-brand px-3.5 py-2 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
           >
             إنشاء حساب

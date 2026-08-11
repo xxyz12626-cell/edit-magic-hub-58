@@ -23,6 +23,7 @@ export function Footer() {
           <ul className="grid gap-2 text-ink-foreground/70">
             <li><Link to="/discover" className="hover:text-gold">تصفّح الفعاليات</Link></li>
             <li><Link to="/organizers" className="hover:text-gold">لمنظمي الفعاليات</Link></li>
+            <li><Link to="/submit" className="hover:text-gold">أضف فعاليتك</Link></li>
             <li><Link to="/discover" className="hover:text-gold">الرعاية العينية</Link></li>
           </ul>
         </div>
