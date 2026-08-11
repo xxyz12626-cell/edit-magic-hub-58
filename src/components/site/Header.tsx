@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Sparkles } from "lucide-react";
+import { LayoutDashboard, Menu, Sparkles } from "lucide-react";
 import { useState } from "react";
+
+import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { to: "/", label: "الرئيسية" },
@@ -11,6 +13,7 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, loading } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur">
@@ -39,18 +42,31 @@ export function Header() {
         </nav>
 
         <div className="mr-auto flex items-center gap-2 md:mr-0">
-          <Link
-            to="/discover"
-            className="hidden rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:inline-flex"
-          >
-            تسجيل الدخول
-          </Link>
-          <Link
-            to="/submit"
-            className="rounded-md bg-brand px-3.5 py-2 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-          >
-            إنشاء حساب
-          </Link>
+          {loading ? (
+            <span className="h-9 w-24 animate-pulse rounded-md bg-secondary" />
+          ) : isAuthenticated ? (
+            <Link
+              to="/account"
+              className="inline-flex items-center gap-2 rounded-md bg-brand px-3.5 py-2 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+            >
+              <LayoutDashboard className="size-4" /> حسابي
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/auth"
+                className="hidden rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:inline-flex"
+              >
+                تسجيل الدخول
+              </Link>
+              <Link
+                to="/auth"
+                className="rounded-md bg-brand px-3.5 py-2 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
+              >
+                إنشاء حساب
+              </Link>
+            </>
+          )}
           <button
             type="button"
             aria-label="القائمة"
@@ -74,6 +90,13 @@ export function Header() {
               {l.label}
             </Link>
           ))}
+          <Link
+            to={isAuthenticated ? "/account" : "/auth"}
+            onClick={() => setOpen(false)}
+            className="rounded-md px-3 py-2 text-sm font-semibold text-brand hover:bg-secondary"
+          >
+            {isAuthenticated ? "حسابي" : "تسجيل الدخول"}
+          </Link>
         </nav>
       )}
     </header>
