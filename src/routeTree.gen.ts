@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as OrganizersRouteImport } from './routes/organizers'
 import { Route as SubmitRouteImport } from './routes/submit'
@@ -18,6 +19,11 @@ import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoverRoute = DiscoverRouteImport.update({
@@ -43,6 +49,7 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/discover': typeof DiscoverRoute
   '/organizers': typeof OrganizersRoute
   '/submit': typeof SubmitRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/discover': typeof DiscoverRoute
   '/organizers': typeof OrganizersRoute
   '/submit': typeof SubmitRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/discover': typeof DiscoverRoute
   '/organizers': typeof OrganizersRoute
   '/submit': typeof SubmitRoute
@@ -65,15 +74,23 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/discover' | '/organizers' | '/submit' | '/events/$slug'
+  fullPaths:
+    '/' | '/auth' | '/discover' | '/organizers' | '/submit' | '/events/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/discover' | '/organizers' | '/submit' | '/events/$slug'
+  to: '/' | '/auth' | '/discover' | '/organizers' | '/submit' | '/events/$slug'
   id:
-    '__root__' | '/' | '/discover' | '/organizers' | '/submit' | '/events/$slug'
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/discover'
+    | '/organizers'
+    | '/submit'
+    | '/events/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   DiscoverRoute: typeof DiscoverRoute
   OrganizersRoute: typeof OrganizersRoute
   SubmitRoute: typeof SubmitRoute
@@ -87,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/discover': {
@@ -122,6 +146,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   DiscoverRoute: DiscoverRoute,
   OrganizersRoute: OrganizersRoute,
   SubmitRoute: SubmitRoute,
