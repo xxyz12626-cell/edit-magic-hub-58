@@ -40,10 +40,19 @@ function DiscoverPage() {
   const [cat, setCat] = useState("all");
   const [budget, setBudget] = useState(0);
   const [inKindOnly, setInKindOnly] = useState(false);
+  const [sort, setSort] = useState("price-asc");
 
   const results = useMemo(
     () =>
-      EVENTS.filter(
+      [...EVENTS]
+        .sort((a, b) =>
+          sort === "price-desc"
+            ? b.fromEGP - a.fromEGP
+            : sort === "attendees-desc"
+              ? b.attendees - a.attendees
+              : a.fromEGP - b.fromEGP,
+        )
+        .filter(
         (e) =>
           (gov === "all" || e.governorate === gov) &&
           (cat === "all" || e.category === cat) &&
@@ -53,7 +62,7 @@ function DiscoverPage() {
             e.title.includes(q.trim()) ||
             e.organizer.toLowerCase().includes(q.trim().toLowerCase())),
       ),
-    [q, gov, cat, budget, inKindOnly],
+    [q, gov, cat, budget, inKindOnly, sort],
   );
 
   return (
@@ -116,7 +125,17 @@ function DiscoverPage() {
                 </option>
               ))}
             </select>
-            <label className="flex items-center gap-2 px-1 text-sm text-muted-foreground md:col-span-2">
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              aria-label="الترتيب"
+              className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none focus:border-brand md:col-span-2"
+            >
+              <option value="price-asc">الأرخص أولًا</option>
+              <option value="price-desc">الأغلى أولًا</option>
+              <option value="attendees-desc">الأكثر حضورًا</option>
+            </select>
+            <label className="flex items-center gap-2 px-1 text-sm text-muted-foreground md:col-span-4">
               <input
                 type="checkbox"
                 checked={inKindOnly}
@@ -130,7 +149,10 @@ function DiscoverPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12">
-        <p className="text-sm text-muted-foreground">{num(results.length)} فعالية مطابقة</p>
+        <p className="text-sm text-muted-foreground">
+          {num(results.length)} فعالية مطابقة من {num(EVENTS.length)} فعالية في{" "}
+          {num(GOVERNORATES.length)} محافظة
+        </p>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           {results.map((e) => (
             <article key={e.slug} className="flex flex-col rounded-xl border border-border bg-card p-6">
