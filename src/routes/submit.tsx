@@ -3,7 +3,7 @@ import { CheckCircle2, FileText, ShieldCheck, Wallet } from "lucide-react";
 import { useState } from "react";
 
 import { PageShell } from "../components/site/PageShell";
-import { CATEGORIES, GOVERNORATES } from "../data/events";
+import { CATEGORIES, GOVERNORATES, num } from "../data/events";
 
 export const Route = createFileRoute("/submit")({
   head: () => ({
@@ -44,7 +44,7 @@ function SubmitPage() {
         <div className="mx-auto max-w-6xl px-4 py-12">
           <h1 className="font-display text-3xl font-bold sm:text-4xl">أضف فعاليتك</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            املأ البيانات مرة واحدة، وفعاليتك تظهر لشركات بتدور على رعاية في {GOVERNORATES.length}{" "}
+            املأ البيانات مرة واحدة، وفعاليتك تظهر لشركات بتدور على رعاية في {num(GOVERNORATES.length)}{" "}
             محافظة. العرض مجاني، والعمولة بتتخصم من الرعاية المحصّلة بس.
           </p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-3">
