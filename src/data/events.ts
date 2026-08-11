@@ -1205,3 +1205,16 @@ export const EVENTS: EventItem[] = [
 export const egp = (n: number) => `${n.toLocaleString("ar-EG")} ج.م`;
 export const num = (n: number) => n.toLocaleString("ar-EG");
 export const eventsByGovernorate = (g: string) => EVENTS.filter((e) => e.governorate === g);
+
+export const TIER_PRESETS = [
+  { name: "برونزي", perks: ["لوجو على الموقع والشاشات", "٢ تذاكر"] },
+  { name: "فضي", perks: ["ركن معرض صغير", "٤ تذاكر", "منشور تعريفي"] },
+  { name: "ذهبي", perks: ["ركن معرض 3×3", "كلمة على المسرح", "بيانات الليدز"] },
+  { name: "بلاتيني", perks: ["حصرية القطاع", "لوجو على كل المواد", "تقرير أثر كامل"] },
+  { name: "الراعي الرئيسي", perks: ["اسم الحدث", "حصرية كاملة", "تقرير أثر موثق"] },
+  { name: "راعي عيني", perks: ["منتجات أو خدمات بدل الفلوس", "ذكر في التقرير"] },
+] as const;
+
+export const PRICE_OPTIONS = [
+  15000, 25000, 35000, 50000, 75000, 100000, 150000, 200000, 300000, 500000,
+] as const;
