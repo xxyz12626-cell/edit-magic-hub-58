@@ -14,7 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          org_name: string | null
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          org_name?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          org_name?: string | null
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      sponsorships: {
+        Row: {
+          amount_egp: number
+          created_at: string
+          event_slug: string
+          event_title: string
+          id: string
+          status: string
+          tier_name: string
+          user_id: string
+        }
+        Insert: {
+          amount_egp?: number
+          created_at?: string
+          event_slug: string
+          event_title: string
+          id?: string
+          status?: string
+          tier_name: string
+          user_id: string
+        }
+        Update: {
+          amount_egp?: number
+          created_at?: string
+          event_slug?: string
+          event_title?: string
+          id?: string
+          status?: string
+          tier_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_events: {
+        Row: {
+          attendees: number
+          audience: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          email: string
+          event_date: string | null
+          governorate: string
+          id: string
+          in_kind: boolean
+          organizer: string
+          status: string
+          tiers: Json
+          title: string
+          user_id: string
+          whatsapp: string
+        }
+        Insert: {
+          attendees?: number
+          audience?: string
+          category: string
+          city: string
+          created_at?: string
+          description?: string
+          email?: string
+          event_date?: string | null
+          governorate: string
+          id?: string
+          in_kind?: boolean
+          organizer?: string
+          status?: string
+          tiers?: Json
+          title: string
+          user_id: string
+          whatsapp?: string
+        }
+        Update: {
+          attendees?: number
+          audience?: string
+          category?: string
+          city?: string
+          created_at?: string
+          description?: string
+          email?: string
+          event_date?: string | null
+          governorate?: string
+          id?: string
+          in_kind?: boolean
+          organizer?: string
+          status?: string
+          tiers?: Json
+          title?: string
+          user_id?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
