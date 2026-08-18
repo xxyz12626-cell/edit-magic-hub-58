@@ -4,8 +4,22 @@ import { useMemo, useState } from "react";
 
 import { PageShell } from "../components/site/PageShell";
 import { CATEGORIES, EVENTS, GOVERNORATES, egp, num } from "../data/events";
+import { listImportedEvents } from "../lib/events.functions";
 
 export const Route = createFileRoute("/discover")({
+  loader: async () => ({ imported: await listImportedEvents() }),
+  errorComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">
+        حصلت مشكلة في تحميل الفعاليات — جرّب تحديث الصفحة.
+      </p>
+    </PageShell>
+  ),
+  notFoundComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">مفيش فعاليات حاليًا.</p>
+    </PageShell>
+  ),
   head: () => ({
     meta: [
       { title: "تصفّح الفعاليات المتاحة للرعاية | سند" },
@@ -35,6 +49,11 @@ const BUDGETS = [
 ];
 
 function DiscoverPage() {
+  const { imported } = Route.useLoaderData();
+  const all = useMemo(() => {
+    const slugs = new Set(EVENTS.map((e) => e.slug));
+    return [...EVENTS, ...imported.filter((e) => !slugs.has(e.slug))];
+  }, [imported]);
   const [q, setQ] = useState("");
   const [gov, setGov] = useState("all");
   const [cat, setCat] = useState("all");
@@ -44,7 +63,7 @@ function DiscoverPage() {
 
   const results = useMemo(
     () =>
-      [...EVENTS]
+      [...all]
         .sort((a, b) =>
           sort === "price-desc"
             ? b.fromEGP - a.fromEGP
