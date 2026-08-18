@@ -63,7 +63,7 @@ function DiscoverPage() {
 
   const results = useMemo(
     () =>
-      [...EVENTS]
+      [...all]
         .sort((a, b) =>
           sort === "price-desc"
             ? b.fromEGP - a.fromEGP
