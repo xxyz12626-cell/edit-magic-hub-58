@@ -17,6 +17,7 @@ import { Route as OrganizersRouteImport } from './routes/organizers'
 import { Route as SubmitRouteImport } from './routes/submit'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as ApiPublicIngestEventsRouteImport } from './routes/api/public/ingest-events'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
   path: '/events/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicIngestEventsRoute = ApiPublicIngestEventsRouteImport.update({
+  id: '/api/public/ingest-events',
+  path: '/api/public/ingest-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/submit': typeof SubmitRoute
   '/account': typeof AuthenticatedAccountRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/api/public/ingest-events': typeof ApiPublicIngestEventsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/submit': typeof SubmitRoute
   '/account': typeof AuthenticatedAccountRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/api/public/ingest-events': typeof ApiPublicIngestEventsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/submit': typeof SubmitRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/api/public/ingest-events': typeof ApiPublicIngestEventsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/submit'
     | '/account'
     | '/events/$slug'
+    | '/api/public/ingest-events'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/submit'
     | '/account'
     | '/events/$slug'
+    | '/api/public/ingest-events'
   id:
     | '__root__'
     | '/'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/submit'
     | '/_authenticated/account'
     | '/events/$slug'
+    | '/api/public/ingest-events'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -126,6 +138,7 @@ export interface RootRouteChildren {
   OrganizersRoute: typeof OrganizersRoute
   SubmitRoute: typeof SubmitRoute
   EventsSlugRoute: typeof EventsSlugRoute
+  ApiPublicIngestEventsRoute: typeof ApiPublicIngestEventsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -186,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ingest-events': {
+      id: '/api/public/ingest-events'
+      path: '/api/public/ingest-events'
+      fullPath: '/api/public/ingest-events'
+      preLoaderRoute: typeof ApiPublicIngestEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -208,6 +228,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrganizersRoute: OrganizersRoute,
   SubmitRoute: SubmitRoute,
   EventsSlugRoute: EventsSlugRoute,
+  ApiPublicIngestEventsRoute: ApiPublicIngestEventsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
