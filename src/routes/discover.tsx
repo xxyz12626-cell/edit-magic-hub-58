@@ -4,8 +4,22 @@ import { useMemo, useState } from "react";
 
 import { PageShell } from "../components/site/PageShell";
 import { CATEGORIES, EVENTS, GOVERNORATES, egp, num } from "../data/events";
+import { listImportedEvents } from "../lib/events.functions";
 
 export const Route = createFileRoute("/discover")({
+  loader: async () => ({ imported: await listImportedEvents() }),
+  errorComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">
+        حصلت مشكلة في تحميل الفعاليات — جرّب تحديث الصفحة.
+      </p>
+    </PageShell>
+  ),
+  notFoundComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">مفيش فعاليات حاليًا.</p>
+    </PageShell>
+  ),
   head: () => ({
     meta: [
       { title: "تصفّح الفعاليات المتاحة للرعاية | سند" },
