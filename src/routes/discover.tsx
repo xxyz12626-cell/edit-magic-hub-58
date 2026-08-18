@@ -49,6 +49,11 @@ const BUDGETS = [
 ];
 
 function DiscoverPage() {
+  const { imported } = Route.useLoaderData();
+  const all = useMemo(() => {
+    const slugs = new Set(EVENTS.map((e) => e.slug));
+    return [...EVENTS, ...imported.filter((e) => !slugs.has(e.slug))];
+  }, [imported]);
   const [q, setQ] = useState("");
   const [gov, setGov] = useState("all");
   const [cat, setCat] = useState("all");
