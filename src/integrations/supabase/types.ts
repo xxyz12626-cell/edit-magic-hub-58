@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      imported_events: {
+        Row: {
+          about: string
+          attendees: number
+          audience: string
+          category: string
+          city: string
+          coverage: number
+          created_at: string
+          date_text: string
+          event_date: string | null
+          external_id: string
+          from_egp: number
+          governorate: string
+          id: string
+          image_url: string
+          in_kind: boolean
+          organizer: string
+          slug: string
+          source: string
+          source_url: string
+          tiers: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          about?: string
+          attendees?: number
+          audience?: string
+          category: string
+          city: string
+          coverage?: number
+          created_at?: string
+          date_text?: string
+          event_date?: string | null
+          external_id: string
+          from_egp?: number
+          governorate: string
+          id?: string
+          image_url?: string
+          in_kind?: boolean
+          organizer?: string
+          slug: string
+          source: string
+          source_url?: string
+          tiers?: Json
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          about?: string
+          attendees?: number
+          audience?: string
+          category?: string
+          city?: string
+          coverage?: number
+          created_at?: string
+          date_text?: string
+          event_date?: string | null
+          external_id?: string
+          from_egp?: number
+          governorate?: string
+          id?: string
+          image_url?: string
+          in_kind?: boolean
+          organizer?: string
+          slug?: string
+          source?: string
+          source_url?: string
+          tiers?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ingest_runs: {
+        Row: {
+          created_at: string
+          error: string | null
+          fetched: number
+          id: string
+          inserted: number
+          source: string
+          updated: number
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          fetched?: number
+          id?: string
+          inserted?: number
+          source?: string
+          updated?: number
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          fetched?: number
+          id?: string
+          inserted?: number
+          source?: string
+          updated?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
