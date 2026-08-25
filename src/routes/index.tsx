@@ -18,6 +18,19 @@ import { CATEGORIES, EVENTS, egp, num } from "../data/events";
 import heroImage from "../assets/hero-events.jpg";
 
 export const Route = createFileRoute("/")({
+  loader: async () => ({ imported: await listImportedEvents() }),
+  errorComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">
+        حصلت مشكلة في تحميل الصفحة — جرّب تحديثها.
+      </p>
+    </PageShell>
+  ),
+  notFoundComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">الصفحة غير موجودة.</p>
+    </PageShell>
+  ),
   head: () => ({
     meta: [
       { title: "سند | رعاية الفعاليات في مصر بالجنيه المصري" },
