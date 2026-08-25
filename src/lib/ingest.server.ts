@@ -5,40 +5,67 @@
  */
 
 type CityTarget = {
+  /** allevents.in city slug — must match the final URL exactly (no fuzzy redirects). */
   slug: string;
   city: string;
   governorate: string;
 };
 
+/** Only slugs verified to resolve to the real Egyptian city page. */
 export const CITY_TARGETS: CityTarget[] = [
   { slug: "cairo", city: "القاهرة", governorate: "القاهرة" },
-  { slug: "giza", city: "الجيزة", governorate: "الجيزة" },
   { slug: "alexandria", city: "الإسكندرية", governorate: "الإسكندرية" },
-  { slug: "banha", city: "بنها", governorate: "القليوبية" },
-  { slug: "port-said", city: "بورسعيد", governorate: "بورسعيد" },
-  { slug: "suez", city: "السويس", governorate: "السويس" },
-  { slug: "ismailia", city: "الإسماعيلية", governorate: "الإسماعيلية" },
-  { slug: "damietta", city: "دمياط", governorate: "دمياط" },
-  { slug: "mansoura", city: "المنصورة", governorate: "الدقهلية" },
-  { slug: "zagazig", city: "الزقازيق", governorate: "الشرقية" },
   { slug: "tanta", city: "طنطا", governorate: "الغربية" },
-  { slug: "kafr-el-sheikh", city: "كفر الشيخ", governorate: "كفر الشيخ" },
-  { slug: "shibin-el-kom", city: "شبين الكوم", governorate: "المنوفية" },
+  { slug: "mansura", city: "المنصورة", governorate: "الدقهلية" },
   { slug: "damanhur", city: "دمنهور", governorate: "البحيرة" },
-  { slug: "marsa-matruh", city: "مرسى مطروح", governorate: "مطروح" },
-  { slug: "fayoum", city: "الفيوم", governorate: "الفيوم" },
+  { slug: "shibin-al-kawm", city: "شبين الكوم", governorate: "المنوفية" },
+  { slug: "port-said", city: "بورسعيد", governorate: "بورسعيد" },
   { slug: "beni-suef", city: "بني سويف", governorate: "بني سويف" },
-  { slug: "minya", city: "المنيا", governorate: "المنيا" },
-  { slug: "asyut", city: "أسيوط", governorate: "أسيوط" },
-  { slug: "sohag", city: "سوهاج", governorate: "سوهاج" },
-  { slug: "qena", city: "قنا", governorate: "قنا" },
-  { slug: "luxor", city: "الأقصر", governorate: "الأقصر" },
-  { slug: "aswan", city: "أسوان", governorate: "أسوان" },
   { slug: "hurghada", city: "الغردقة", governorate: "البحر الأحمر" },
-  { slug: "kharga", city: "الخارجة", governorate: "الوادي الجديد" },
-  { slug: "arish", city: "العريش", governorate: "شمال سيناء" },
   { slug: "sharm-el-sheikh", city: "شرم الشيخ", governorate: "جنوب سيناء" },
+  { slug: "el-arish", city: "العريش", governorate: "شمال سيناء" },
+  { slug: "al-kharijah", city: "الخارجة", governorate: "الوادي الجديد" },
+  { slug: "egypt", city: "مصر", governorate: "القاهرة" },
 ];
+
+/** Venue keywords → governorate, so events listed under a big city land correctly. */
+const GOV_HINTS: { gov: string; words: string[] }[] = [
+  { gov: "الجيزة", words: ["giza", "الجيزة", "dokki", "الدقي", "6 october", "6th of october", "أكتوبر", "sheikh zayed", "الشيخ زايد", "haram", "الهرم", "المهندسين", "mohandessin"] },
+  { gov: "القليوبية", words: ["banha", "benha", "بنها", "shubra", "شبرا الخيمة", "qalyub", "القليوبية"] },
+  { gov: "الإسكندرية", words: ["alexandria", "الإسكندرية", "الاسكندرية", "borg el arab", "برج العرب"] },
+  { gov: "السويس", words: ["suez", "السويس"] },
+  { gov: "الإسماعيلية", words: ["ismailia", "الإسماعيلية", "الاسماعيلية"] },
+  { gov: "دمياط", words: ["damietta", "دمياط", "ras el bar", "رأس البر"] },
+  { gov: "الشرقية", words: ["zagazig", "الزقازيق", "الشرقية", "10th of ramadan", "العاشر من رمضان"] },
+  { gov: "كفر الشيخ", words: ["kafr el sheikh", "كفر الشيخ", "baltim", "بلطيم"] },
+  { gov: "مطروح", words: ["matrouh", "مطروح", "marsa matruh", "el alamein", "العلمين"] },
+  { gov: "الفيوم", words: ["fayoum", "fayyum", "الفيوم", "tunis village", "تونس"] },
+  { gov: "المنيا", words: ["minya", "المنيا"] },
+  { gov: "أسيوط", words: ["asyut", "assiut", "أسيوط"] },
+  { gov: "سوهاج", words: ["sohag", "سوهاج"] },
+  { gov: "قنا", words: ["qena", "قنا"] },
+  { gov: "الأقصر", words: ["luxor", "الأقصر", "الاقصر"] },
+  { gov: "أسوان", words: ["aswan", "أسوان", "abu simbel", "أبو سمبل"] },
+  { gov: "البحر الأحمر", words: ["hurghada", "الغردقة", "el gouna", "الجونة", "marsa alam", "مرسى علم", "safaga", "سفاجا"] },
+  { gov: "جنوب سيناء", words: ["sharm", "شرم", "dahab", "دهب", "nuweiba", "نويبع", "طابا", "taba"] },
+  { gov: "شمال سيناء", words: ["arish", "العريش"] },
+  { gov: "بورسعيد", words: ["port said", "بورسعيد"] },
+  { gov: "الغربية", words: ["tanta", "طنطا", "mahalla", "المحلة"] },
+  { gov: "الدقهلية", words: ["mansoura", "mansura", "المنصورة", "mit ghamr", "ميت غمر"] },
+  { gov: "البحيرة", words: ["damanhur", "دمنهور", "rashid", "رشيد", "kafr el dawar"] },
+  { gov: "المنوفية", words: ["shibin", "شبين", "sadat city", "مدينة السادات"] },
+  { gov: "بني سويف", words: ["beni suef", "بني سويف"] },
+  { gov: "الوادي الجديد", words: ["kharga", "الخارجة", "dakhla", "الداخلة"] },
+  { gov: "القاهرة", words: ["cairo", "القاهرة", "new capital", "العاصمة الإدارية", "maadi", "المعادي", "heliopolis", "مصر الجديدة", "nasr city", "مدينة نصر", "zamalek", "الزمالك", "الساقية"] },
+];
+
+function inferGovernorate(text: string, fallback: string): string {
+  const lower = text.toLowerCase();
+  for (const hint of GOV_HINTS) {
+    if (hint.words.some((w) => lower.includes(w))) return hint.gov;
+  }
+  return fallback;
+}
 
 export type ScrapedEvent = {
   source: string;
@@ -65,7 +92,7 @@ export type ScrapedEvent = {
 const CATEGORY_RULES: { category: string; words: string[] }[] = [
   {
     category: "تكنولوجيا وستارت أب",
-    words: ["tech", "startup", "ai", "developer", "code", "digital", "crypto", "data", "تكنولوجيا", "برمجة", "ستارت"],
+    words: ["tech", "startup", "ai ", "developer", "code", "digital", "crypto", "data", "تكنولوجيا", "برمجة", "ستارت"],
   },
   {
     category: "رياضة",
@@ -147,8 +174,8 @@ function buildTiers(seed: number, attendees: number) {
   const base = Math.max(12000, Math.round((attendees * 12) / 1000) * 1000);
   const bump = 5000 * (seed % 5);
   const p1 = base + bump;
-  const p2 = Math.round(p1 * 3.1 / 1000) * 1000;
-  const p3 = Math.round(p1 * 7.4 / 1000) * 1000;
+  const p2 = Math.round((p1 * 3.1) / 1000) * 1000;
+  const p3 = Math.round((p1 * 7.4) / 1000) * 1000;
   return [
     { name: "راعي داعم", priceEGP: p1, perks: ["لوجو على الموقع والشاشات", "٤ تذاكر", "منشور تعريفي"] },
     { name: "راعي ذهبي", priceEGP: p2, perks: ["ركن معرض 3×3", "كلمة على المسرح", "بيانات الليدز"] },
@@ -166,7 +193,7 @@ function slugify(title: string, id: string): string {
 }
 
 const CARD_RE =
-  /<li[^>]*class="event-card[^"]*"[^>]*data-eid="(\d+)"[^>]*data-link="([^"]+)"[\s\S]*?(?:background:url\((?<img>[^)]+)\))?[\s\S]*?<div class="date"[^>]*>([\s\S]*?)<\/div>[\s\S]*?<h3>([\s\S]*?)<\/h3>[\s\S]*?<div class="location[^"]*"[^>]*>([\s\S]*?)<\/div>/g;
+  /<li[^>]*class="event-card[^"]*"[^>]*data-eid="(\d+)"[^>]*data-link="([^"]+)"([\s\S]*?)<div class="date"[^>]*>([\s\S]*?)<\/div>[\s\S]*?<h3>([\s\S]*?)<\/h3>[\s\S]*?<div class="location[^"]*"[^>]*>([\s\S]*?)<\/div>/g;
 
 export function parseCityPage(html: string, target: CityTarget): ScrapedEvent[] {
   const out: ScrapedEvent[] = [];
@@ -174,6 +201,7 @@ export function parseCityPage(html: string, target: CityTarget): ScrapedEvent[] 
   for (const match of html.matchAll(CARD_RE)) {
     const id = match[1] ?? "";
     const link = decodeEntities(match[2] ?? "");
+    const banner = match[3] ?? "";
     const dateText = clean(match[4] ?? "");
     const title = clean(match[5] ?? "");
     const venue = clean(match[6] ?? "");
@@ -184,14 +212,17 @@ export function parseCityPage(html: string, target: CityTarget): ScrapedEvent[] 
     const { iso, arabic } = parseDate(dateText);
     const attendees = 300 + (seed % 46) * 150;
     const tiers = buildTiers(seed, attendees);
+    const category = inferCategory(`${title} ${venue}`);
+    const governorate = inferGovernorate(`${venue} ${link}`, target.governorate);
+    const image = /background:url\(([^)]+)\)/.exec(banner)?.[1] ?? "";
     out.push({
       source: "allevents",
       external_id: id,
       slug: slugify(title, id),
       title,
       organizer: venue || `${target.city} — منظم محلي`,
-      category: inferCategory(`${title} ${venue}`),
-      governorate: target.governorate,
+      category,
+      governorate,
       city: venue ? venue.split(",")[0]!.trim().slice(0, 60) : target.city,
       date_text: arabic,
       event_date: iso,
@@ -199,18 +230,19 @@ export function parseCityPage(html: string, target: CityTarget): ScrapedEvent[] 
       coverage: seed % 65,
       in_kind: seed % 3 !== 0,
       from_egp: tiers[0]!.priceEGP,
-      audience: `جمهور ${target.governorate} المهتم بـ${inferCategory(title)}`,
-      about: `${title} في ${venue || target.city} — فرصة رعاية موثقة من مصدر عام، بأسعار بالجنيه المصري وفاتورة ضريبية.`,
+      audience: `جمهور ${governorate} المهتم بـ${category}`,
+      about: `${title} في ${venue || target.city} — فرصة رعاية من فعالية حقيقية معلنة، بأسعار بالجنيه المصري وفاتورة ضريبية.`,
       tiers,
       source_url: link,
-      image_url: match.groups?.["img"] ?? "",
+      image_url: image,
     });
   }
   return out;
 }
 
 async function fetchCity(target: CityTarget): Promise<ScrapedEvent[]> {
-  const res = await fetch(`https://allevents.in/${target.slug}/all`, {
+  const url = `https://allevents.in/${target.slug}/all`;
+  const res = await fetch(url, {
     headers: {
       "user-agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
@@ -218,10 +250,15 @@ async function fetchCity(target: CityTarget): Promise<ScrapedEvent[]> {
     },
   });
   if (!res.ok) throw new Error(`${target.slug}: HTTP ${res.status}`);
+  // Reject fuzzy redirects to a same-sounding city in another country.
+  const finalPath = new URL(res.url).pathname;
+  if (finalPath !== `/${target.slug}/all`) {
+    throw new Error(`${target.slug}: redirected to ${finalPath}`);
+  }
   return parseCityPage(await res.text(), target);
 }
 
-/** Pick 3 cities per run so all 27 governorates refresh within ~90 minutes. */
+/** Pick 3 cities per run so all sources refresh within ~50 minutes. */
 export function citiesForRun(now = Date.now()): CityTarget[] {
   const slot = Math.floor(now / (10 * 60 * 1000));
   const size = 3;
