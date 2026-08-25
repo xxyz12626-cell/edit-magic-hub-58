@@ -72,16 +72,16 @@ function DiscoverPage() {
               : a.fromEGP - b.fromEGP,
         )
         .filter(
-        (e) =>
-          (gov === "all" || e.governorate === gov) &&
-          (cat === "all" || e.category === cat) &&
-          e.fromEGP <= (BUDGETS[budget]?.max ?? Infinity) &&
-          (!inKindOnly || e.inKind) &&
-          (q.trim() === "" ||
-            e.title.includes(q.trim()) ||
-            e.organizer.toLowerCase().includes(q.trim().toLowerCase())),
-      ),
-    [q, gov, cat, budget, inKindOnly, sort],
+          (e) =>
+            (gov === "all" || e.governorate === gov) &&
+            (cat === "all" || e.category === cat) &&
+            e.fromEGP <= (BUDGETS[budget]?.max ?? Infinity) &&
+            (!inKindOnly || e.inKind) &&
+            (q.trim() === "" ||
+              e.title.includes(q.trim()) ||
+              e.organizer.toLowerCase().includes(q.trim().toLowerCase())),
+        ),
+    [all, q, gov, cat, budget, inKindOnly, sort],
   );
 
   return (
@@ -174,7 +174,10 @@ function DiscoverPage() {
         </p>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           {results.map((e) => (
-            <article key={e.slug} className="flex flex-col rounded-xl border border-border bg-card p-6">
+            <article
+              key={e.slug}
+              className="flex flex-col rounded-xl border border-border bg-card p-6"
+            >
               <div className="flex flex-wrap items-center gap-2 text-xs">
                 <span className="rounded-full bg-secondary px-2.5 py-1 text-secondary-foreground">
                   {e.category}
@@ -200,7 +203,10 @@ function DiscoverPage() {
               </ul>
               <div className="mt-4">
                 <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                  <div className="h-full rounded-full bg-gold" style={{ width: `${e.coverage}%` }} />
+                  <div
+                    className="h-full rounded-full bg-gold"
+                    style={{ width: `${e.coverage}%` }}
+                  />
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <span>تم تغطية {e.coverage}%</span>

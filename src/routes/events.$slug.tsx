@@ -26,7 +26,9 @@ export const Route = createFileRoute("/events/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
-      return { meta: [{ title: "الفعالية غير متاحة | سند" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "الفعالية غير متاحة | سند" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { event } = loaderData;
     const description = `${event.title} — ${event.city}, ${event.governorate}. باقات رعاية تبدأ من ${egp(event.fromEGP)} بفاتورة ضريبية وتقرير نتائج.`;
@@ -100,7 +102,10 @@ function EventPage() {
 
           <div className="mt-6 max-w-md">
             <div className="h-2 w-full overflow-hidden rounded-full bg-card">
-              <div className="h-full rounded-full bg-gold" style={{ width: `${event.coverage}%` }} />
+              <div
+                className="h-full rounded-full bg-gold"
+                style={{ width: `${event.coverage}%` }}
+              />
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
               تم تغطية {event.coverage}% من احتياج الرعاية

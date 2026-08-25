@@ -80,12 +80,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "سند | رعاية الفعاليات في مصر" },
       {
         name: "description",
-        content:
-          "منصة مصرية تربط منظمي الفعاليات بالشركات الراعية بأسعار بالجنيه وفواتير ضريبية.",
+        content: "منصة مصرية تربط منظمي الفعاليات بالشركات الراعية بأسعار بالجنيه وفواتير ضريبية.",
       },
-      
+
       { property: "og:site_name", content: "سند" },
-      
+
       { property: "og:locale", content: "ar_EG" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

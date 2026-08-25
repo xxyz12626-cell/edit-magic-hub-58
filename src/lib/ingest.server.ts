@@ -30,13 +30,39 @@ export const CITY_TARGETS: CityTarget[] = [
 
 /** Venue keywords → governorate, so events listed under a big city land correctly. */
 const GOV_HINTS: { gov: string; words: string[] }[] = [
-  { gov: "الجيزة", words: ["giza", "الجيزة", "dokki", "الدقي", "6 october", "6th of october", "أكتوبر", "sheikh zayed", "الشيخ زايد", "haram", "الهرم", "المهندسين", "mohandessin"] },
-  { gov: "القليوبية", words: ["banha", "benha", "بنها", "shubra", "شبرا الخيمة", "qalyub", "القليوبية"] },
-  { gov: "الإسكندرية", words: ["alexandria", "الإسكندرية", "الاسكندرية", "borg el arab", "برج العرب"] },
+  {
+    gov: "الجيزة",
+    words: [
+      "giza",
+      "الجيزة",
+      "dokki",
+      "الدقي",
+      "6 october",
+      "6th of october",
+      "أكتوبر",
+      "sheikh zayed",
+      "الشيخ زايد",
+      "haram",
+      "الهرم",
+      "المهندسين",
+      "mohandessin",
+    ],
+  },
+  {
+    gov: "القليوبية",
+    words: ["banha", "benha", "بنها", "shubra", "شبرا الخيمة", "qalyub", "القليوبية"],
+  },
+  {
+    gov: "الإسكندرية",
+    words: ["alexandria", "الإسكندرية", "الاسكندرية", "borg el arab", "برج العرب"],
+  },
   { gov: "السويس", words: ["suez", "السويس"] },
   { gov: "الإسماعيلية", words: ["ismailia", "الإسماعيلية", "الاسماعيلية"] },
   { gov: "دمياط", words: ["damietta", "دمياط", "ras el bar", "رأس البر"] },
-  { gov: "الشرقية", words: ["zagazig", "الزقازيق", "الشرقية", "10th of ramadan", "العاشر من رمضان"] },
+  {
+    gov: "الشرقية",
+    words: ["zagazig", "الزقازيق", "الشرقية", "10th of ramadan", "العاشر من رمضان"],
+  },
   { gov: "كفر الشيخ", words: ["kafr el sheikh", "كفر الشيخ", "baltim", "بلطيم"] },
   { gov: "مطروح", words: ["matrouh", "مطروح", "marsa matruh", "el alamein", "العلمين"] },
   { gov: "الفيوم", words: ["fayoum", "fayyum", "الفيوم", "tunis village", "تونس"] },
@@ -46,8 +72,23 @@ const GOV_HINTS: { gov: string; words: string[] }[] = [
   { gov: "قنا", words: ["qena", "قنا"] },
   { gov: "الأقصر", words: ["luxor", "الأقصر", "الاقصر"] },
   { gov: "أسوان", words: ["aswan", "أسوان", "abu simbel", "أبو سمبل"] },
-  { gov: "البحر الأحمر", words: ["hurghada", "الغردقة", "el gouna", "الجونة", "marsa alam", "مرسى علم", "safaga", "سفاجا"] },
-  { gov: "جنوب سيناء", words: ["sharm", "شرم", "dahab", "دهب", "nuweiba", "نويبع", "طابا", "taba"] },
+  {
+    gov: "البحر الأحمر",
+    words: [
+      "hurghada",
+      "الغردقة",
+      "el gouna",
+      "الجونة",
+      "marsa alam",
+      "مرسى علم",
+      "safaga",
+      "سفاجا",
+    ],
+  },
+  {
+    gov: "جنوب سيناء",
+    words: ["sharm", "شرم", "dahab", "دهب", "nuweiba", "نويبع", "طابا", "taba"],
+  },
   { gov: "شمال سيناء", words: ["arish", "العريش"] },
   { gov: "بورسعيد", words: ["port said", "بورسعيد"] },
   { gov: "الغربية", words: ["tanta", "طنطا", "mahalla", "المحلة"] },
@@ -56,7 +97,24 @@ const GOV_HINTS: { gov: string; words: string[] }[] = [
   { gov: "المنوفية", words: ["shibin", "شبين", "sadat city", "مدينة السادات"] },
   { gov: "بني سويف", words: ["beni suef", "بني سويف"] },
   { gov: "الوادي الجديد", words: ["kharga", "الخارجة", "dakhla", "الداخلة"] },
-  { gov: "القاهرة", words: ["cairo", "القاهرة", "new capital", "العاصمة الإدارية", "maadi", "المعادي", "heliopolis", "مصر الجديدة", "nasr city", "مدينة نصر", "zamalek", "الزمالك", "الساقية"] },
+  {
+    gov: "القاهرة",
+    words: [
+      "cairo",
+      "القاهرة",
+      "new capital",
+      "العاصمة الإدارية",
+      "maadi",
+      "المعادي",
+      "heliopolis",
+      "مصر الجديدة",
+      "nasr city",
+      "مدينة نصر",
+      "zamalek",
+      "الزمالك",
+      "الساقية",
+    ],
+  },
 ];
 
 function inferGovernorate(text: string, fallback: string): string {
@@ -92,15 +150,51 @@ export type ScrapedEvent = {
 const CATEGORY_RULES: { category: string; words: string[] }[] = [
   {
     category: "تكنولوجيا وستارت أب",
-    words: ["tech", "startup", "ai ", "developer", "code", "digital", "crypto", "data", "تكنولوجيا", "برمجة", "ستارت"],
+    words: [
+      "tech",
+      "startup",
+      "ai ",
+      "developer",
+      "code",
+      "digital",
+      "crypto",
+      "data",
+      "تكنولوجيا",
+      "برمجة",
+      "ستارت",
+    ],
   },
   {
     category: "رياضة",
-    words: ["run", "marathon", "football", "sport", "yoga", "fitness", "match", "padel", "رياض", "ماراثون", "جري"],
+    words: [
+      "run",
+      "marathon",
+      "football",
+      "sport",
+      "yoga",
+      "fitness",
+      "match",
+      "padel",
+      "رياض",
+      "ماراثون",
+      "جري",
+    ],
   },
   {
     category: "تعليم وجامعات",
-    words: ["course", "workshop", "training", "university", "school", "bootcamp", "career", "تدريب", "ورشة", "جامعة", "تعليم"],
+    words: [
+      "course",
+      "workshop",
+      "training",
+      "university",
+      "school",
+      "bootcamp",
+      "career",
+      "تدريب",
+      "ورشة",
+      "جامعة",
+      "تعليم",
+    ],
   },
   {
     category: "طبي وصحي",
@@ -108,11 +202,34 @@ const CATEGORY_RULES: { category: string; words: string[] }[] = [
   },
   {
     category: "صناعة وتصدير",
-    words: ["expo", "industry", "trade", "export", "manufacturing", "logistics", "معرض", "صناعة", "تصدير"],
+    words: [
+      "expo",
+      "industry",
+      "trade",
+      "export",
+      "manufacturing",
+      "logistics",
+      "معرض",
+      "صناعة",
+      "تصدير",
+    ],
   },
   {
     category: "ثقافة وفنون",
-    words: ["concert", "music", "art", "theatre", "film", "festival", "book", "حفل", "موسيق", "فن", "مسرح", "ثقاف"],
+    words: [
+      "concert",
+      "music",
+      "art",
+      "theatre",
+      "film",
+      "festival",
+      "book",
+      "حفل",
+      "موسيق",
+      "فن",
+      "مسرح",
+      "ثقاف",
+    ],
   },
 ];
 
@@ -146,17 +263,39 @@ function decodeEntities(input: string): string {
 }
 
 function clean(input: string): string {
-  return decodeEntities(input.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  return decodeEntities(input.replace(/<[^>]+>/g, " "))
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 const MONTHS: Record<string, number> = {
-  jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
-  jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12,
+  jan: 1,
+  feb: 2,
+  mar: 3,
+  apr: 4,
+  may: 5,
+  jun: 6,
+  jul: 7,
+  aug: 8,
+  sep: 9,
+  oct: 10,
+  nov: 11,
+  dec: 12,
 };
 
 const AR_MONTHS = [
-  "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-  "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر",
+  "يناير",
+  "فبراير",
+  "مارس",
+  "أبريل",
+  "مايو",
+  "يونيو",
+  "يوليو",
+  "أغسطس",
+  "سبتمبر",
+  "أكتوبر",
+  "نوفمبر",
+  "ديسمبر",
 ];
 
 function parseDate(dateText: string): { iso: string | null; arabic: string } {
@@ -177,9 +316,21 @@ function buildTiers(seed: number, attendees: number) {
   const p2 = Math.round((p1 * 3.1) / 1000) * 1000;
   const p3 = Math.round((p1 * 7.4) / 1000) * 1000;
   return [
-    { name: "راعي داعم", priceEGP: p1, perks: ["لوجو على الموقع والشاشات", "٤ تذاكر", "منشور تعريفي"] },
-    { name: "راعي ذهبي", priceEGP: p2, perks: ["ركن معرض 3×3", "كلمة على المسرح", "بيانات الليدز"] },
-    { name: "الراعي الرئيسي", priceEGP: p3, perks: ["اسم الحدث", "حصرية القطاع", "تقرير أثر كامل"] },
+    {
+      name: "راعي داعم",
+      priceEGP: p1,
+      perks: ["لوجو على الموقع والشاشات", "٤ تذاكر", "منشور تعريفي"],
+    },
+    {
+      name: "راعي ذهبي",
+      priceEGP: p2,
+      perks: ["ركن معرض 3×3", "كلمة على المسرح", "بيانات الليدز"],
+    },
+    {
+      name: "الراعي الرئيسي",
+      priceEGP: p3,
+      perks: ["اسم الحدث", "حصرية القطاع", "تقرير أثر كامل"],
+    },
   ];
 }
 
@@ -268,7 +419,12 @@ export function citiesForRun(now = Date.now()): CityTarget[] {
 
 export async function runIngest(cities = citiesForRun()) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const summary = { cities: cities.map((c) => c.slug), fetched: 0, upserted: 0, errors: [] as string[] };
+  const summary = {
+    cities: cities.map((c) => c.slug),
+    fetched: 0,
+    upserted: 0,
+    errors: [] as string[],
+  };
 
   for (const target of cities) {
     try {

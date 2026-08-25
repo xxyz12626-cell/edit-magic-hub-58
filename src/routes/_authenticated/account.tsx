@@ -22,7 +22,8 @@ export const Route = createFileRoute("/_authenticated/account")({
       { title: "حسابي | فعالياتي ورعاياتي على سند" },
       {
         name: "description",
-        content: "صفحة حسابك على سند: بياناتك الثابتة، الفعاليات اللي شاركت بيها، والرعايات اللي عملتها.",
+        content:
+          "صفحة حسابك على سند: بياناتك الثابتة، الفعاليات اللي شاركت بيها، والرعايات اللي عملتها.",
       },
       { property: "og:title", content: "حسابي | سند" },
       { property: "og:description", content: "فعالياتك ورعاياتك في مكان واحد." },
@@ -245,10 +246,7 @@ function AccountPage() {
 
           {tab === "events" ? (
             events.length === 0 ? (
-              <Empty
-                text="لسه مضفتش أي فعالية."
-                cta={{ to: "/submit", label: "أضف فعاليتك" }}
-              />
+              <Empty text="لسه مضفتش أي فعالية." cta={{ to: "/submit", label: "أضف فعاليتك" }} />
             ) : (
               <ul className="mt-5 grid gap-4">
                 {events.map((ev) => (
@@ -276,7 +274,10 @@ function AccountPage() {
                     {ev.tiers && ev.tiers.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2 text-xs">
                         {ev.tiers.map((t) => (
-                          <span key={t.name} className="rounded-full bg-brand/10 px-2.5 py-1 text-brand">
+                          <span
+                            key={t.name}
+                            className="rounded-full bg-brand/10 px-2.5 py-1 text-brand"
+                          >
                             {t.name} · {egp(t.priceEGP)}
                           </span>
                         ))}
@@ -287,7 +288,10 @@ function AccountPage() {
               </ul>
             )
           ) : sponsorships.length === 0 ? (
-            <Empty text="لسه معملتش أي رعاية." cta={{ to: "/discover", label: "تصفّح الفعاليات" }} />
+            <Empty
+              text="لسه معملتش أي رعاية."
+              cta={{ to: "/discover", label: "تصفّح الفعاليات" }}
+            />
           ) : (
             <ul className="mt-5 grid gap-4">
               {sponsorships.map((sp) => (
@@ -322,15 +326,7 @@ function AccountPage() {
   );
 }
 
-function Stat({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof Wallet;
-  label: string;
-  value: string;
-}) {
+function Stat({ icon: Icon, label, value }: { icon: typeof Wallet; label: string; value: string }) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
       <Icon className="size-4 text-brand" />

@@ -315,16 +315,20 @@ function SubmitPage() {
             </fieldset>
 
             <fieldset className="grid gap-4 rounded-xl border border-border bg-card p-6">
-              <legend className="px-1 font-display font-bold">٣. باقات الرعاية (اختيار جاهز)</legend>
+              <legend className="px-1 font-display font-bold">
+                ٣. باقات الرعاية (اختيار جاهز)
+              </legend>
               <p className="text-xs text-muted-foreground">
-                اختار الباقة والسعر من القوائم — مش محتاج تكتب حاجة. سيب الباقة فاضية لو مش
-                محتاجها.
+                اختار الباقة والسعر من القوائم — مش محتاج تكتب حاجة. سيب الباقة فاضية لو مش محتاجها.
               </p>
               {TIER_ROWS.map((row, i) => {
                 const tier = tiers[i]!;
                 const preset = TIER_PRESETS.find((p) => p.name === tier.name);
                 return (
-                  <div key={row.label} className="grid gap-3 rounded-lg border border-border/70 p-4">
+                  <div
+                    key={row.label}
+                    className="grid gap-3 rounded-lg border border-border/70 p-4"
+                  >
                     <div className="grid gap-3 sm:grid-cols-2">
                       <Field label={`${row.label} — النوع`} required={row.required}>
                         <select

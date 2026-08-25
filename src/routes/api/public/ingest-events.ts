@@ -15,9 +15,7 @@ export const Route = createFileRoute("/api/public/ingest-events")({
 
 async function handle(request: Request) {
   const provided =
-    request.headers.get("x-ingest-secret") ??
-    new URL(request.url).searchParams.get("secret") ??
-    "";
+    request.headers.get("x-ingest-secret") ?? new URL(request.url).searchParams.get("secret") ?? "";
   if (!provided) return new Response("Unauthorized", { status: 401 });
 
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

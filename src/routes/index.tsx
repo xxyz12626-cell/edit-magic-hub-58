@@ -126,8 +126,8 @@ function HomePage() {
             ارعَ فعاليات مصرية حقيقية، وشوف نتيجة فلوسك بالأرقام.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-ink-foreground/80">
-            «سند» سوق يربط الشركات بمنظمي الفعاليات في كل محافظات مصر — من هاكاثون في أسيوط
-            لماراثون على كورنيش الإسكندرية.
+            «سند» سوق يربط الشركات بمنظمي الفعاليات في كل محافظات مصر — من هاكاثون في أسيوط لماراثون
+            على كورنيش الإسكندرية.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
@@ -242,7 +242,10 @@ function HomePage() {
 
                 <div className="mt-4">
                   <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                    <div className="h-full rounded-full bg-gold" style={{ width: `${e.coverage}%` }} />
+                    <div
+                      className="h-full rounded-full bg-gold"
+                      style={{ width: `${e.coverage}%` }}
+                    />
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <span>تم تغطية {e.coverage}% من الرعاية</span>
