@@ -169,7 +169,7 @@ function DiscoverPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-12">
         <p className="text-sm text-muted-foreground">
-          {num(results.length)} فعالية مطابقة من {num(EVENTS.length)} فعالية في{" "}
+          {num(results.length)} فعالية مطابقة من {num(all.length)} فعالية في{" "}
           {num(GOVERNORATES.length)} محافظة
         </p>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
