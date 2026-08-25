@@ -102,8 +102,9 @@ const STEPS = [
 ];
 
 function HomePage() {
+  const { imported } = Route.useLoaderData();
   const [active, setActive] = useState<string>(CATEGORIES[0]);
-  const shown = EVENTS.filter((e) => e.category === active).slice(0, 3);
+  const shown = [...imported, ...EVENTS].filter((e) => e.category === active).slice(0, 3);
 
   return (
     <PageShell>
