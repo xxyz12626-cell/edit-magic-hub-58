@@ -14,12 +14,20 @@ export const Route = createFileRoute("/api/public/ingest-events")({
 });
 
 async function handle(request: Request) {
-  const secret = process.env["INGEST_SECRET"];
   const provided =
     request.headers.get("x-ingest-secret") ??
     new URL(request.url).searchParams.get("secret") ??
     "";
-  if (!secret || provided !== secret) {
+  if (!provided) return new Response("Unauthorized", { status: 401 });
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: cfg } = await supabaseAdmin
+    .from("ingest_config")
+    .select("ingest_secret")
+    .limit(1)
+    .maybeSingle();
+  const expected = cfg?.ingest_secret ?? process.env["INGEST_SECRET"] ?? "";
+  if (!expected || provided !== expected) {
     return new Response("Unauthorized", { status: 401 });
   }
 

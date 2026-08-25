@@ -15,9 +15,23 @@ import { useState } from "react";
 
 import { PageShell } from "../components/site/PageShell";
 import { CATEGORIES, EVENTS, egp, num } from "../data/events";
+import { listImportedEvents } from "../lib/events.functions";
 import heroImage from "../assets/hero-events.jpg";
 
 export const Route = createFileRoute("/")({
+  loader: async () => ({ imported: await listImportedEvents() }),
+  errorComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">
+        حصلت مشكلة في تحميل الصفحة — جرّب تحديثها.
+      </p>
+    </PageShell>
+  ),
+  notFoundComponent: () => (
+    <PageShell>
+      <p className="mx-auto max-w-6xl px-4 py-24 text-muted-foreground">الصفحة غير موجودة.</p>
+    </PageShell>
+  ),
   head: () => ({
     meta: [
       { title: "سند | رعاية الفعاليات في مصر بالجنيه المصري" },
@@ -88,8 +102,9 @@ const STEPS = [
 ];
 
 function HomePage() {
+  const { imported } = Route.useLoaderData();
   const [active, setActive] = useState<string>(CATEGORIES[0]);
-  const shown = EVENTS.filter((e) => e.category === active).slice(0, 3);
+  const shown = [...imported, ...EVENTS].filter((e) => e.category === active).slice(0, 3);
 
   return (
     <PageShell>
