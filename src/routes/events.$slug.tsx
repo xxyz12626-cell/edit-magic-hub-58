@@ -13,10 +13,14 @@ import {
 import { PageShell } from "../components/site/PageShell";
 import { EVENTS, egp, num } from "../data/events";
 import type { EventItem, SponsorTier } from "../data/events";
+import { listImportedEvents } from "../lib/events.functions";
 
 export const Route = createFileRoute("/events/$slug")({
-  loader: ({ params }): { event: EventItem } => {
-    const event = EVENTS.find((e) => e.slug === params.slug);
+  loader: async ({ params }): Promise<{ event: EventItem }> => {
+    const local = EVENTS.find((e) => e.slug === params.slug);
+    if (local) return { event: local };
+    const imported = await listImportedEvents();
+    const event = imported.find((e) => e.slug === params.slug);
     if (!event) throw notFound();
     return { event };
   },
