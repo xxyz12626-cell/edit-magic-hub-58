@@ -15,6 +15,7 @@ import { useState } from "react";
 
 import { PageShell } from "../components/site/PageShell";
 import { CATEGORIES, EVENTS, egp, num } from "../data/events";
+import { listImportedEvents } from "../lib/events.functions";
 import heroImage from "../assets/hero-events.jpg";
 
 export const Route = createFileRoute("/")({
